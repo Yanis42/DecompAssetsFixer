@@ -17,7 +17,7 @@ def getFiles(path:str, fileType:str):
     return filesList
 
 def getFilesFromDict(dataDict:dict, files:list):
-    '''Returns a list of files which contains the specified data'''
+    '''Filters the list returned by ``getFiles`` to keep relevant data'''
     filesList = []
     for file in files:
         with open(file, 'r') as curFile:
@@ -29,7 +29,7 @@ def getFilesFromDict(dataDict:dict, files:list):
     return filesList
 
 def replaceOldData(path:str, extension:str):
-    '''Returns list of the new files to write'''
+    '''Replaces older names by newer ones'''
     for data in dataToFix:
         files = getFilesFromDict(data, getFiles(path, extension))
         for file in files:
