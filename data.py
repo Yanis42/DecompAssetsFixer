@@ -1,7 +1,16 @@
-# Set your decomp path here
+### [GENERAL DATA] ###
+
+# Set your decomp assets path here
 decompPath = "../oot/assets"
 
+# Add types here
+fileTypes = [".h", ".c"]
+
 # -------------------------------------------------------
+
+### [FIX TYPES MODE] ###
+
+# Format: ``"OLD": "NEW"``
 
 camData = {
     "CamData": "BgCamInfo",
@@ -31,11 +40,13 @@ skinData = {
     "Struct_800A598C": "SkinLimbModif",
 }
 
-# -------------------------------------------------------
-
+# Add or remove dictionnaries to this list to replace types
 dataToFix = [
     camData,
     curveData,
     roomData,
     skinData,
 ]
+
+# -------------------------------------------------------
+

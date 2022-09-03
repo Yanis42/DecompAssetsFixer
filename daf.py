@@ -1,44 +1,30 @@
-from os import walk
+import argparse
 
 try:
-    from data import dataToFix, decompPath
+    from functions import replaceOldData, fileTypes, decompPath
 except:
-    print("ERROR: ``data.py`` not found! Make sure everything is in the same folder.")
+    print("ERROR: ``functions.py`` not found! Make sure everything is in the same folder.")
     quit()
 
-def getFiles(path:str, fileType:str):
-    '''Returns a list of the filenames with the specified extension'''
-    filesList = []
-    for path, dirs, files in walk(path):
-        for file in files:
-            if file.endswith(fileType):
-                filesList.append(f"{path}/{file}")
-    filesList.sort()
-    return filesList
+parser = argparse.ArgumentParser(
+    description = "Fix various things related to assets for the OoT Decomp"
+)
 
-def getFilesFromDict(dataDict:dict, files:list):
-    '''Filters the list returned by ``getFiles`` to keep relevant data'''
-    filesList = []
-    for file in files:
-        with open(file, 'r') as curFile:
-            for key in dataDict.keys():
-                for line in curFile.readlines():
-                    if line.find(key) != -1:
-                        filesList.append(curFile.name)
-    filesList.sort()
-    return filesList
+parser.add_argument(
+    "-m",
+    "--mode",
+    dest = "mode",
+    type = str,
+    default = "",
+    help = "available modes: `fix_types`, `name_entrances`"
+)
 
-def replaceOldData(path:str, extension:str):
-    '''Replaces older names by newer ones'''
-    for data in dataToFix:
-        files = getFilesFromDict(data, getFiles(path, extension))
-        for file in files:
-            with open(file, 'r') as curFile:
-                fileData = curFile.read()
-            for key in data.keys():
-                fileData = fileData.replace(f"{key} ", f"{data[key]} ")
-            with open(file, 'w') as curFile:
-                curFile.write(fileData)
+args = parser.parse_args()
 
-replaceOldData(decompPath, ".h")
-replaceOldData(decompPath, ".c")
+if args.mode == "":
+    print("Usage: daf.py -h (--help)")
+    quit()
+
+if args.mode == "fix_types":
+    for type in fileTypes:
+        replaceOldData(decompPath, type)
