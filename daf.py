@@ -1,10 +1,15 @@
-from data import dataToFix
-import os
+from os import walk
+
+try:
+    from data import dataToFix, decompPath
+except:
+    print("ERROR: ``data.py`` not found! Make sure everything is in the same folder.")
+    quit()
 
 def getFiles(path:str, fileType:str):
     '''Returns a list of the filenames with the specified extension'''
     filesList = []
-    for path, dirs, files in os.walk(path):
+    for path, dirs, files in walk(path):
         for file in files:
             if file.endswith(fileType):
                 filesList.append(f"{path}/{file}")
@@ -35,5 +40,5 @@ def replaceOldData(path:str, extension:str):
             with open(file, 'w') as curFile:
                 curFile.write(fileData)
 
-replaceOldData("../oot/assets", ".h")
-replaceOldData("../oot/assets", ".c")
+replaceOldData(decompPath, ".h")
+replaceOldData(decompPath, ".c")

@@ -1,3 +1,8 @@
+# Set your decomp path here
+decompPath = "../oot/assets"
+
+# -------------------------------------------------------
+
 camData = {
     "CamData": "BgCamInfo",
 }
@@ -25,6 +30,8 @@ skinData = {
     "Struct_800A5E28": "SkinAnimatedLimbData",
     "Struct_800A598C": "SkinLimbModif",
 }
+
+# -------------------------------------------------------
 
 dataToFix = [
     camData,
