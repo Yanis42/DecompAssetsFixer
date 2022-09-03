@@ -1,9 +1,10 @@
 import argparse
 
 try:
-    from functions import replaceOldData, fileTypes, decompPath
+    from data import fileTypes, decompPath
+    from functions import replaceOldData, replaceEntranceHex
 except:
-    print("ERROR: ``functions.py`` not found! Make sure everything is in the same folder.")
+    print("ERROR: Files are missing. Make sure everything is in the same folder.")
     quit()
 
 parser = argparse.ArgumentParser(
@@ -27,4 +28,7 @@ if args.mode == "":
 
 if args.mode == "fix_types":
     for type in fileTypes:
-        replaceOldData(decompPath, type)
+        replaceOldData(f"{decompPath}/assets/", type)
+
+if args.mode == "name_entrances":
+    replaceEntranceHex(decompPath)

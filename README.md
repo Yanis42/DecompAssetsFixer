@@ -3,7 +3,7 @@ The tool used for extract the assets ([ZAPD](https://github.com/zeldaret/ZAPD)) 
 
 # Usage
 - Change the decomp path in ``data.py``
-- Run ``daf.py`` (tested under Python 3.10, should work with 3.7+)
+- Run ``daf.py`` (tested under Python 3.10, should work with 3.9+)
 - If you have any issues when compiling the decomp, try ``make clean && make -j``, if it's not working feel free to open an issue on this repo
 
 ROM should build OK
