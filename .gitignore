@@ -1,2 +1,5 @@
 # Project files
 *.txt
+
+# Python files
+__pycache__/
