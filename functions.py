@@ -1,5 +1,6 @@
 from os import walk
 from re import sub
+from argparse import ArgumentParser as Parser
 
 try:
     from data import dataToFix, entrDictSpecial
@@ -10,6 +11,39 @@ except:
 # -------------------------------------------------------
 
 ### [GENERAL FUNCTIONS] ###
+
+
+def getArguments():
+    parser = Parser(description="Fix various things related to assets for the OoT Decomp")
+
+    parser.add_argument(
+        "-m",
+        "--mode",
+        dest="mode",
+        type=str,
+        default="",
+        help="available modes: `fix_types`, `name_entrances`, `fix_segments`",
+    )
+
+    parser.add_argument(
+        "-a",
+        "--all",
+        dest="run_all",
+        default=False,
+        action="store_true",
+        help="run every mode",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        dest="verbose",
+        default=False,
+        action="store_true",
+        help="show extra informations",
+    )
+
+    return parser.parse_args(), parser
 
 
 def getPaths(path: str, fileType: str):

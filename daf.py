@@ -1,44 +1,54 @@
-import argparse
+from time import time
 
 try:
     from data import fileTypes, decompPath
-    from functions import replaceOldData, replaceEntranceHex, fixSegments
+    from functions import replaceOldData, replaceEntranceHex, fixSegments, getArguments
 except:
     print("ERROR: Files are missing. Make sure everything is in the same folder.")
     quit()
 
-parser = argparse.ArgumentParser(description="Fix various things related to assets for the OoT Decomp")
+# verbose settings
+fixTypeTime = entranceTime = segmentsTime = None
+dashAmount = 60
+infoPrefix = "[DAF:Info]"
 
-parser.add_argument(
-    "-m",
-    "--mode",
-    dest="mode",
-    type=str,
-    default="",
-    help="available modes: `fix_types`, `name_entrances`, `fix_segments`",
-)
-
-parser.add_argument(
-    "-a",
-    "--all",
-    dest="run_all",
-    default=False,
-    action="store_true",
-    help="run every mode",
-)
-
-args = parser.parse_args()
+# general things
+args, parser = getArguments()
+hasArgs = False
+startingTime = time()
 
 if args.mode == "fix_types" or args.run_all:
+    if args.verbose:
+        print(f"{infoPrefix}: Fixing types and macros...")
+
+    hasArgs = True
     for type in fileTypes:
         replaceOldData(f"{decompPath}/assets/", type)
 
-elif args.mode == "name_entrances" or args.run_all:
+    if args.verbose:
+        print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
+
+if args.mode == "name_entrances" or args.run_all:
+    if args.verbose:
+        print(f"{infoPrefix}: Removing hexadecimal from exit lists...")
+    hasArgs = True
     replaceEntranceHex(decompPath)
 
-elif args.mode == "fix_segments" or args.run_all:
+    if args.verbose:
+        print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
+
+if args.mode == "fix_segments" or args.run_all:
+    if args.verbose:
+        print(f"{infoPrefix}: Adding missing casts to rooms symbols...")
+    hasArgs = True
     fixSegments(decompPath)
 
-else:
+    if args.verbose:
+        print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
+
+if hasArgs and args.verbose:
+    print(f"{infoPrefix}: All Done in {(time() - startingTime):.2f}s!")
+
+if not hasArgs:
     parser.print_help()
     quit()
