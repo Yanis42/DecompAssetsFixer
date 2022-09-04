@@ -1,4 +1,5 @@
 from os import walk
+from re import sub
 
 try:
     from data import dataToFix, entrDictSpecial
@@ -10,27 +11,27 @@ except:
 
 ### [GENERAL FUNCTIONS] ###
 
-def getFiles(path:str, fileType:str):
+def getPaths(path:str, fileType:str):
     '''Returns a list of data paths with the specified extension'''
-    filesList = []
+    paths = []
     for path, dirs, files in walk(path):
         for file in files:
             if file.endswith(fileType):
-                filesList.append(f"{path}/{file}")
-    filesList.sort()
-    return filesList
+                paths.append(f"{path}/{file}")
+    paths.sort()
+    return paths
 
-def getFilesFromDict(dataDict:dict, files:list):
-    '''Filters the list returned by ``getFiles`` to keep relevant data'''
-    filesList = []
-    for file in files:
-        with open(file, 'r') as curFile:
+def getPathsFromDict(dataDict:dict, paths:list):
+    '''Filters the list returned by ``getPaths`` to keep relevant data'''
+    relevantPaths = []
+    for path in paths:
+        with open(path, 'r') as curFile:
             for key in dataDict.keys():
                 for line in curFile.readlines():
                     if line.find(key) != -1:
-                        filesList.append(curFile.name)
-    filesList.sort()
-    return filesList
+                        relevantPaths.append(curFile.name)
+    relevantPaths.sort()
+    return relevantPaths
 
 # -------------------------------------------------------
 
@@ -39,13 +40,14 @@ def getFilesFromDict(dataDict:dict, files:list):
 def replaceOldData(path:str, extension:str):
     '''Replaces older names by newer ones'''
     for data in dataToFix:
-        files = getFilesFromDict(data, getFiles(path, extension))
-        for file in files:
-            with open(file, 'r') as curFile:
+        filePaths = getPathsFromDict(data, getPaths(path, extension))
+        for path in filePaths:
+            with open(path, 'r') as curFile:
                 fileData = curFile.read()
             for key in data.keys():
-                fileData = fileData.replace(f"{key} ", f"{data[key]} ")
-            with open(file, 'w') as curFile:
+                fileData = sub(fr"{key}\b", data[key], fileData)
+                fileData = sub(fr"{key}_\B", f"{data[key]}_", fileData)
+            with open(path, 'w') as curFile:
                 curFile.write(fileData)
 
 # -------------------------------------------------------
@@ -109,7 +111,7 @@ def getNewFileData(data:list, dataDict:dict, arrayName:str):
 def replaceEntranceHex(decompRoot:str):
     '''Updates the entrances from OoT scenes'''
     entrDict = getEntranceDict(decompRoot)
-    scenePaths = getFiles(f"{decompRoot}/assets/scenes/", ".c")
+    scenePaths = getPaths(f"{decompRoot}/assets/scenes/", ".c")
 
     for path in scenePaths:
         data = []
