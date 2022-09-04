@@ -14,6 +14,8 @@ except:
 
 
 def getArguments():
+    """Initialisation of the argument parser"""
+
     parser = Parser(description="Fix various things related to assets for the OoT Decomp")
 
     parser.add_argument(
@@ -163,10 +165,12 @@ def replaceEntranceHex(decompRoot: str):
 
 
 def fixSegments(decompRoot):
+    """Adds u32 casts to room's segment symbols"""
     paths = getPaths(f"{decompRoot}/assets/scenes", ".c")
     for path in paths:
         with open(path, "r") as curFile:
             fileData = curFile.read()
+        # ``\g<0>`` allows using the matched group as the replacement
         fileData = sub(r"\w*SegmentRom\w*", r"(u32)\g<0>", fileData)
         with open(path, "w") as curFile:
             curFile.write(fileData)
