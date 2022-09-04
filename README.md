@@ -9,6 +9,7 @@ The tool used for extract the assets ([ZAPD](https://github.com/zeldaret/ZAPD)) 
 ### Operating modes:
 - ``daf.py -m (--mode) fix_types``, this will update types and macros, intended to be used after using ZAPD
 - ``daf.py -m (--mode) name_entrances``, this will remove hex numbers from exit lists
+- ``daf.py -m (--mode) fix_segments``, this will add casts to segment symbols inside room lists
 
 ### ROM should build OK
 ```

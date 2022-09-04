@@ -2,7 +2,7 @@ import argparse
 
 try:
     from data import fileTypes, decompPath
-    from functions import replaceOldData, replaceEntranceHex
+    from functions import replaceOldData, replaceEntranceHex, fixSegments
 except:
     print("ERROR: Files are missing. Make sure everything is in the same folder.")
     quit()
@@ -10,7 +10,12 @@ except:
 parser = argparse.ArgumentParser(description="Fix various things related to assets for the OoT Decomp")
 
 parser.add_argument(
-    "-m", "--mode", dest="mode", type=str, default="", help="available modes: `fix_types`, `name_entrances`"
+    "-m",
+    "--mode",
+    dest="mode",
+    type=str,
+    default="",
+    help="available modes: `fix_types`, `name_entrances`, `fix_segments`",
 )
 
 args = parser.parse_args()
@@ -25,3 +30,6 @@ if args.mode == "fix_types":
 
 if args.mode == "name_entrances":
     replaceEntranceHex(decompPath)
+
+if args.mode == "fix_segments":
+    fixSegments(decompPath)

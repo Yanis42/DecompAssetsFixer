@@ -36,6 +36,29 @@ def getPathsFromDict(dataDict: dict, paths: list):
     return relevantPaths
 
 
+def getArrayInfos(data: list, arrayName: str):
+    """Returns arrays containing line numbers for the start and the end of relevant C data"""
+    arrayStartIndices = []
+    arrayEndIndices = []
+    hasListStarted = False
+
+    for lineNb, line in enumerate(data):
+        if arrayName in line and line.endswith("] = {\n"):
+            arrayStartIndices.append(lineNb + 1)
+            hasListStarted = True
+
+        if hasListStarted and line.startswith("};\n"):
+            arrayEndIndices.append(lineNb)
+            hasListStarted = False
+    try:
+        if len(arrayStartIndices) != len(arrayEndIndices):
+            raise IndexError
+    except IndexError:
+        print("ERROR: Start Length != End Length")
+
+    return arrayStartIndices, arrayEndIndices
+
+
 # -------------------------------------------------------
 
 ### [FIX TYPES MODE] ###
@@ -79,29 +102,6 @@ def getEntranceDict(path: str):
     return {f"0x{i:04X}": entrance for i, entrance in enumerate(entranceList)} | entrDictSpecial
 
 
-def getArrayInfos(data: list, arrayName: str):
-    """Returns arrays containing line numbers for the start and the end of relevant C data"""
-    arrayStartIndices = []
-    arrayEndIndices = []
-    hasListStarted = False
-
-    for lineNb, line in enumerate(data):
-        if line.find(arrayName) != -1 and line.endswith("] = {\n"):
-            arrayStartIndices.append(lineNb + 1)
-            hasListStarted = True
-
-        if hasListStarted and line.startswith("};\n"):
-            arrayEndIndices.append(lineNb)
-            hasListStarted = False
-    try:
-        if len(arrayStartIndices) != len(arrayEndIndices):
-            raise IndexError
-    except IndexError:
-        print("ERROR: Start Length != End Length")
-
-    return arrayStartIndices, arrayEndIndices
-
-
 def getNewFileData(data: list, dataDict: dict, arrayName: str):
     """Returns the current data with the updated values"""
     startList, endList = getArrayInfos(data, arrayName)
@@ -110,7 +110,7 @@ def getNewFileData(data: list, dataDict: dict, arrayName: str):
             for i in range(curEnd - curStart):
                 curLine = curStart + i
                 try:
-                    data[curLine] = f"    {dataDict[data[curLine][:-2].lstrip()]},\n"
+                    data[curLine] = (" " * 4) + f"{dataDict[data[curLine][:-2].lstrip()]},\n"
                 except KeyError:
                     # why???
                     pass
@@ -134,3 +134,18 @@ def replaceEntranceHex(decompRoot: str):
             with open(path, "w") as file:
                 for line in newData:
                     file.write(line)
+
+
+# -------------------------------------------------------
+
+### [FIX SEGMENTS] ###
+
+
+def fixSegments(decompRoot):
+    paths = getPaths(f"{decompRoot}/assets/scenes", ".c")
+    for path in paths:
+        with open(path, "r") as curFile:
+            fileData = curFile.read()
+        fileData = sub(r"\w*SegmentRom\w*", r"(u32)\g<0>", fileData)
+        with open(path, "w") as curFile:
+            curFile.write(fileData)
