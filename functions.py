@@ -170,7 +170,11 @@ def fixSegments(decompRoot):
     for path in paths:
         with open(path, "r") as curFile:
             fileData = curFile.read()
-        # ``\g<0>`` allows using the matched group as the replacement
-        fileData = sub(r"\w*SegmentRom\w*", r"(u32)\g<0>", fileData)
+
+        fileData = sub(
+            r"\w*SegmentRom\w*|\(u32\)\w*SegmentRom\w*",
+            lambda match: f"(u32){match.group(0)}" if not match.group(0).startswith("(u32)") else match.group(0),
+            fileData,
+        )
         with open(path, "w") as curFile:
             curFile.write(fileData)
