@@ -55,10 +55,10 @@ dataToFix = [
 # Dictionnary containing special entrance values
 entrDictSpecial = {
     "0x7FF9": "ENTR_RETURN_YOUSEI_IZUMI_YOKO",  # Great Fairy Fountain (spells)
-    "0x7FFA": "ENTR_RETURN_SYATEKIJYOU",        # Shooting gallery
-    "0x7FFB": "ENTR_RETURN_2",                  # Unused
-    "0x7FFC": "ENTR_RETURN_SHOP1",              # Bazaar
-    "0x7FFD": "ENTR_RETURN_4",                  # Unused
-    "0x7FFE": "ENTR_RETURN_DAIYOUSEI_IZUMI",    # Great Fairy Fountain (magic, double magic, double defense)
-    "0x7FFF": "ENTR_RETURN_GROTTO",             # Grottos and normal Fairy Fountain
+    "0x7FFA": "ENTR_RETURN_SYATEKIJYOU",  # Shooting gallery
+    "0x7FFB": "ENTR_RETURN_2",  # Unused
+    "0x7FFC": "ENTR_RETURN_SHOP1",  # Bazaar
+    "0x7FFD": "ENTR_RETURN_4",  # Unused
+    "0x7FFE": "ENTR_RETURN_DAIYOUSEI_IZUMI",  # Great Fairy Fountain (magic, double magic, double defense)
+    "0x7FFF": "ENTR_RETURN_GROTTO",  # Grottos and normal Fairy Fountain
 }

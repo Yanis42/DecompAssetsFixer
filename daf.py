@@ -7,17 +7,10 @@ except:
     print("ERROR: Files are missing. Make sure everything is in the same folder.")
     quit()
 
-parser = argparse.ArgumentParser(
-    description = "Fix various things related to assets for the OoT Decomp"
-)
+parser = argparse.ArgumentParser(description="Fix various things related to assets for the OoT Decomp")
 
 parser.add_argument(
-    "-m",
-    "--mode",
-    dest = "mode",
-    type = str,
-    default = "",
-    help = "available modes: `fix_types`, `name_entrances`"
+    "-m", "--mode", dest="mode", type=str, default="", help="available modes: `fix_types`, `name_entrances`"
 )
 
 args = parser.parse_args()
