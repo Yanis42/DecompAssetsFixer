@@ -6,7 +6,11 @@ The tool used for extract the assets ([ZAPD](https://github.com/zeldaret/ZAPD)) 
 - Run ``daf.py`` (tested under Python 3.10, should work with 3.9+)
 - If you have any issues when compiling the decomp, try ``make clean && make -j``, if it's not working feel free to open an issue on this repo
 
-ROM should build OK
+### Operating modes:
+- ``daf.py -m (--mode) fix_types``, this will update types and macros, intended to be used after using ZAPD
+- ``daf.py -m (--mode) name_entrances``, this will remove hex numbers from exit lists
+
+### ROM should build OK
 ```
 f0b7f35375f9cc8ca1b2d59d78e35405  zelda_ocarina_mq_dbg.z64
 zelda_ocarina_mq_dbg.z64: OK
