@@ -1,7 +1,7 @@
 from time import time
 
 try:
-    from data import fileTypes, decompPath
+    from data import fileTypes
     from functions import replaceOldData, replaceEntranceHex, fixSegments, getArguments
 except:
     print("[DAF:Error]: Files are missing. Make sure everything is in the same folder.")
@@ -14,6 +14,7 @@ infoPrefix = "[DAF:Info]"
 
 # general things
 args, parser = getArguments()
+
 hasArgs = False
 runTime = time()
 
@@ -25,7 +26,7 @@ if args.mode == "fix_types" or args.run_all:
 
     hasArgs = True
     for type in fileTypes:
-        replaceOldData(f"{decompPath}/assets/", type)
+        replaceOldData(f"{args.decompPath}/assets/", type)
 
     if args.verbose:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
@@ -36,7 +37,7 @@ if args.mode == "name_entrances" or args.run_all:
     if args.verbose:
         print(f"{infoPrefix}: Removing hexadecimal from exit lists...")
     hasArgs = True
-    replaceEntranceHex(decompPath)
+    replaceEntranceHex(args.decompPath)
 
     if args.verbose:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
@@ -47,7 +48,7 @@ if args.mode == "fix_segments" or args.run_all:
     if args.verbose:
         print(f"{infoPrefix}: Adding missing casts to rooms symbols...")
     hasArgs = True
-    fixSegments(decompPath)
+    fixSegments(args.decompPath)
 
     if args.verbose:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")

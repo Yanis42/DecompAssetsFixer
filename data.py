@@ -1,8 +1,5 @@
 ### [GENERAL DATA] ###
 
-# Set your decomp path here
-decompPath = "../oot"
-
 # Add types here
 fileTypes = [".h", ".c"]
 

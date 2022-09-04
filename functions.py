@@ -45,6 +45,15 @@ def getArguments():
         help="show extra informations",
     )
 
+    parser.add_argument(
+        "-p",
+        "--path",
+        dest="decompPath",
+        default="",
+        required=True,
+        help="set decomp root",
+    )
+
     return parser.parse_args(), parser
 
 
@@ -119,7 +128,7 @@ def getEntranceDict(path: str):
                     startIndex = line.find("ENTR_")
                     entranceList.append(line[startIndex : line.find(",", startIndex)])
     except FileNotFoundError:
-        raise print("[DAF:Error]: Can't find scene_table.h!")
+        raise print("[DAF:Error]: Can't find entrance_table.h!")
 
     # return a dictionnary from the entrance list
     return {f"0x{i:04X}": entrance for i, entrance in enumerate(entranceList)} | entrDictSpecial
