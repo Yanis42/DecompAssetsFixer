@@ -11,7 +11,7 @@ except:
 ### [GENERAL FUNCTIONS] ###
 
 def getFiles(path:str, fileType:str):
-    '''Returns a list of the filenames with the specified extension'''
+    '''Returns a list of data paths with the specified extension'''
     filesList = []
     for path, dirs, files in walk(path):
         for file in files:
@@ -110,9 +110,10 @@ def replaceEntranceHex(decompRoot:str):
     '''Updates the entrances from OoT scenes'''
     entrDict = getEntranceDict(decompRoot)
     scenePaths = getFiles(f"{decompRoot}/assets/scenes/", ".c")
-    sceneName = None
 
     for path in scenePaths:
+        data = []
+        sceneName = None
         with open(path, 'r') as file:
             if file.name.find("room") == -1:
                 data = file.readlines()
