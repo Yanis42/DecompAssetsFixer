@@ -18,18 +18,27 @@ parser.add_argument(
     help="available modes: `fix_types`, `name_entrances`, `fix_segments`",
 )
 
+parser.add_argument(
+    "-a",
+    "--all",
+    dest="run_all",
+    default=False,
+    action="store_true",
+    help="run every mode",
+)
+
 args = parser.parse_args()
 
-if args.mode == "":
-    print("Usage: daf.py -h (--help)")
-    quit()
-
-if args.mode == "fix_types":
+if args.mode == "fix_types" or args.run_all:
     for type in fileTypes:
         replaceOldData(f"{decompPath}/assets/", type)
 
-if args.mode == "name_entrances":
+elif args.mode == "name_entrances" or args.run_all:
     replaceEntranceHex(decompPath)
 
-if args.mode == "fix_segments":
+elif args.mode == "fix_segments" or args.run_all:
     fixSegments(decompPath)
+
+else:
+    parser.print_help()
+    quit()

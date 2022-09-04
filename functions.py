@@ -23,19 +23,6 @@ def getPaths(path: str, fileType: str):
     return paths
 
 
-def getPathsFromDict(dataDict: dict, paths: list):
-    """Filters the list returned by ``getPaths`` to keep relevant data"""
-    relevantPaths = []
-    for path in paths:
-        with open(path, "r") as curFile:
-            for key in dataDict.keys():
-                for line in curFile.readlines():
-                    if line.find(key) != -1:
-                        relevantPaths.append(curFile.name)
-    relevantPaths.sort()
-    return relevantPaths
-
-
 def getArrayInfos(data: list, arrayName: str):
     """Returns arrays containing line numbers for the start and the end of relevant C data"""
     arrayStartIndices = []
@@ -66,16 +53,16 @@ def getArrayInfos(data: list, arrayName: str):
 
 def replaceOldData(path: str, extension: str):
     """Replaces older names by newer ones"""
-    for data in dataToFix:
-        filePaths = getPathsFromDict(data, getPaths(path, extension))
-        for path in filePaths:
-            with open(path, "r") as curFile:
-                fileData = curFile.read()
+    paths = getPaths(path, extension)
+    for path in paths:
+        with open(path, "r") as curFile:
+            fileData = curFile.read()
+        for data in dataToFix:
             for key in data.keys():
                 fileData = sub(rf"{key}\b", data[key], fileData)
                 fileData = sub(rf"{key}_\B", f"{data[key]}_", fileData)
-            with open(path, "w") as curFile:
-                curFile.write(fileData)
+        with open(path, "w") as curFile:
+            curFile.write(fileData)
 
 
 # -------------------------------------------------------
