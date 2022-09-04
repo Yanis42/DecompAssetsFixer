@@ -13,7 +13,8 @@ The tool used for extract the assets ([ZAPD](https://github.com/zeldaret/ZAPD)) 
 - ``daf.py -a (--all)``, this will run all modes
 - ``daf.py -v (--verbose)``, this will display extra informations
 
-### ROM should build OK
+### ROM should build OK on an unmodifed codebase
+
 ```
 f0b7f35375f9cc8ca1b2d59d78e35405  zelda_ocarina_mq_dbg.z64
 zelda_ocarina_mq_dbg.z64: OK

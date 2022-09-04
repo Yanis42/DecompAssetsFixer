@@ -4,7 +4,7 @@ try:
     from data import fileTypes, decompPath
     from functions import replaceOldData, replaceEntranceHex, fixSegments, getArguments
 except:
-    print("ERROR: Files are missing. Make sure everything is in the same folder.")
+    print("[DAF:Error]: Files are missing. Make sure everything is in the same folder.")
     quit()
 
 # verbose settings
@@ -15,9 +15,11 @@ infoPrefix = "[DAF:Info]"
 # general things
 args, parser = getArguments()
 hasArgs = False
-startingTime = time()
+runTime = time()
 
 if args.mode == "fix_types" or args.run_all:
+    startingTime = time()
+
     if args.verbose:
         print(f"{infoPrefix}: Fixing types and macros...")
 
@@ -29,6 +31,8 @@ if args.mode == "fix_types" or args.run_all:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
 
 if args.mode == "name_entrances" or args.run_all:
+    startingTime = time()
+
     if args.verbose:
         print(f"{infoPrefix}: Removing hexadecimal from exit lists...")
     hasArgs = True
@@ -38,6 +42,8 @@ if args.mode == "name_entrances" or args.run_all:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
 
 if args.mode == "fix_segments" or args.run_all:
+    startingTime = time()
+
     if args.verbose:
         print(f"{infoPrefix}: Adding missing casts to rooms symbols...")
     hasArgs = True
@@ -47,7 +53,7 @@ if args.mode == "fix_segments" or args.run_all:
         print(f"{infoPrefix}: Done in {(time() - startingTime):.2f}s!\n{'-' * dashAmount}")
 
 if hasArgs and args.verbose:
-    print(f"{infoPrefix}: All Done in {(time() - startingTime):.2f}s!")
+    print(f"{infoPrefix}: All Done in {(time() - runTime):.2f}s!")
 
 if not hasArgs:
     parser.print_help()

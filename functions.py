@@ -5,7 +5,7 @@ from argparse import ArgumentParser as Parser
 try:
     from data import dataToFix, entrDictSpecial
 except:
-    print("ERROR: ``data.py`` not found! Make sure everything is in the same folder.")
+    print("[DAF:Error]: ``data.py`` not found! Make sure everything is in the same folder.")
     quit()
 
 # -------------------------------------------------------
@@ -77,7 +77,7 @@ def getArrayInfos(data: list, arrayName: str):
         if len(arrayStartIndices) != len(arrayEndIndices):
             raise IndexError
     except IndexError:
-        print("ERROR: Start Length != End Length")
+        print("[DAF:Error]: Start Length != End Length")
 
     return arrayStartIndices, arrayEndIndices
 
@@ -119,7 +119,7 @@ def getEntranceDict(path: str):
                     startIndex = line.find("ENTR_")
                     entranceList.append(line[startIndex : line.find(",", startIndex)])
     except FileNotFoundError:
-        raise print("ERROR: Can't find scene_table.h!")
+        raise print("[DAF:Error]: Can't find scene_table.h!")
 
     # return a dictionnary from the entrance list
     return {f"0x{i:04X}": entrance for i, entrance in enumerate(entranceList)} | entrDictSpecial
