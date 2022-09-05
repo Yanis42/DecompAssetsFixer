@@ -2,7 +2,7 @@
 The tool used for extract the assets ([ZAPD](https://github.com/zeldaret/ZAPD)) needs to be updated because it's using old names for structs and macros, this project is a workaround attempt until the main tool is updated.
 
 ## Usage
-- Change the decomp path in ``data.py``
+- Set the decomp path with the ``-p (--path)`` argument (example: ``daf.py -p ./ (-a || -m MODE)``)
 - Run ``daf.py`` (tested under Python 3.10, should work with 3.9+)
 - If you have any issues when compiling the decomp, try ``make clean && make -j``, if it's not working feel free to open an issue on this repo
 
