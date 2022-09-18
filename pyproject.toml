@@ -6,7 +6,7 @@
 line-length = 120
 
 target-version = [
-    'py39', # minimal compatible version
+    'py37', # minimal compatible version
 ]
 
 # What files to exclude when running Black on directories (for example `black .`)
